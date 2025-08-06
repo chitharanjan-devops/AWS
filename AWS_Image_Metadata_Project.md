@@ -1,10 +1,6 @@
----
-
 ## 🖼️ Project Name:
 
 **"Image Metadata Extractor with Email Notification"**
-
----
 
 ## 🚀 What You'll Learn:
 
