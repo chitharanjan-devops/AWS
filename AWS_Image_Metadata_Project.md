@@ -106,68 +106,55 @@
 2. Replace existing code with:
 
 ```python
-import boto3
-import os
 import json
-from PIL import Image
-from datetime import datetime
-import uuid
+import boto3
+import datetime
 
-s3 = boto3.client('s3')
 dynamodb = boto3.resource('dynamodb')
 sns = boto3.client('sns')
 
-table = dynamodb.Table('ImageMetadata')
-SNS_TOPIC_ARN = 'arn:aws:sns:YOUR_REGION:YOUR_ACCOUNT_ID:ImageUploadNotification' 
+TABLE_NAME = 'ImageMetadata'
+SNS_TOPIC_ARN = 'arn:aws:sns:ap-southeast-1:339713068940:my-topic-latest'
 
 def lambda_handler(event, context):
-    for record in event['Records']:
+    try:
+        print("Event:", event)
+        
+        record = event['Records'][0]
         bucket = record['s3']['bucket']['name']
         key = record['s3']['object']['key']
-        
-        # Download file
-        tmp_path = f'/tmp/{key}'
-        s3.download_file(bucket, key, tmp_path)
-        
-        # Extract metadata
-        with Image.open(tmp_path) as img:
-            width, height = img.size
-            format = img.format
-            size = os.path.getsize(tmp_path)
-        
-        image_id = str(uuid.uuid4())
-        timestamp = datetime.utcnow().isoformat()
 
-        # Save to DynamoDB
-        table.put_item(Item={
-            'ImageID': image_id,
-            'Filename': key,
-            'FileSize': size,
-            'Width': width,
-            'Height': height,
-            'Format': format,
-            'UploadTimestamp': timestamp
-        })
+        # Get current timestamp
+        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # Send email via SNS
-        message = f"""
-        ✅ New Image Uploaded:
-        🖼 Filename: {key}
-        📐 Dimensions: {width} x {height}
-        🗂 Format: {format}
-        📦 Size: {size} bytes
-        ⏰ Time: {timestamp}
-        """
-        sns.publish(
-            TopicArn=SNS_TOPIC_ARN,
-            Subject="New Image Uploaded",
-            Message=message
+        # Store in DynamoDB
+        table = dynamodb.Table(TABLE_NAME)
+        table.put_item(
+            Item={
+                'ImageName': key,
+                'UploadTime': now
+            }
         )
 
-    return {
-        'statusCode': 200,
-        'body': json.dumps('Image processed successfully.')
-    }
+        # Send SNS notification
+        message = f"Image '{key}' was uploaded to bucket '{bucket}' at {now}."
+        sns.publish(
+            TopicArn=SNS_TOPIC_ARN,
+            Message=message,
+            Subject='New Image Uploaded'
+        )
+
+        return {
+            'statusCode': 200,
+            'body': json.dumps('Success')
+        }
+
+    except Exception as e:
+        print("Error:", str(e))
+        return {
+            'statusCode': 500,
+            'body': json.dumps('Error: ' + str(e))
+        }
 ```
 
 3. Replace `YOUR_REGION` and `YOUR_ACCOUNT_ID` with your actual AWS Region and Account ID (SNS gives you the ARN).
