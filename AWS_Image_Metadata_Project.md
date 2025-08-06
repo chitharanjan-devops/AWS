@@ -1,18 +1,10 @@
-## 🖼️ Project Name:
+## Project Name:
 
 **"Image Metadata Extractor with Email Notification"**
 
-## 🚀 What You'll Learn:
-
-* Uploading images to **S3**
-* Triggering **Lambda**
-* Extracting metadata using Python (`PIL`)
-* Storing data in **DynamoDB**
-* Sending notifications using **SNS**
-
 ---
 
-## 🧰 Tools/Technologies:
+## Tools/Technologies:
 
 * AWS S3
 * AWS Lambda
@@ -23,11 +15,11 @@
 
 ---
 
-# 🛠️ Step-by-Step Instructions
+# Step-by-Step Instructions
 
 ---
 
-## ✅ STEP 1: Create S3 Bucket (For Image Uploads)
+## STEP 1: Create S3 Bucket (For Image Uploads)
 
 1. Go to [S3 Console](https://console.aws.amazon.com/s3/)
 2. Click **Create bucket**
@@ -40,7 +32,7 @@
 
 ---
 
-## ✅ STEP 2: Create DynamoDB Table (To Store Metadata)
+## STEP 2: Create DynamoDB Table (To Store Metadata)
 
 1. Go to [DynamoDB Console](https://console.aws.amazon.com/dynamodb/)
 2. Click **Create table**
@@ -52,7 +44,7 @@
 
 ---
 
-## ✅ STEP 3: Create SNS Topic (For Email Notification)
+## STEP 3: Create SNS Topic (For Email Notification)
 
 1. Go to [SNS Console](https://console.aws.amazon.com/sns/)
 2. Click **Create topic**
@@ -64,7 +56,7 @@
 
 ---
 
-## ✅ STEP 4: Subscribe to SNS (Your Email)
+## STEP 4: Subscribe to SNS (Your Email)
 
 1. In your SNS topic, click **"Create subscription"**
 2. Choose:
@@ -72,11 +64,11 @@
    * **Protocol**: Email
    * **Endpoint**: your email address
 3. Click **Create subscription**
-4. 💌 Check your email inbox and **confirm the subscription**
+4. Check your email inbox and **confirm the subscription**
 
 ---
 
-## ✅ STEP 5: Create IAM Role for Lambda
+## STEP 5: Create IAM Role for Lambda
 
 1. Go to [IAM Console](https://console.aws.amazon.com/iam/)
 2. Click **Roles → Create Role**
@@ -95,7 +87,7 @@
 
 ---
 
-## ✅ STEP 6: Create Lambda Function
+## STEP 6: Create Lambda Function
 
 1. Go to [Lambda Console](https://console.aws.amazon.com/lambda/)
 2. Click **Create function**
@@ -108,7 +100,7 @@
 
 ---
 
-## ✅ STEP 7: Add Lambda Code
+## STEP 7: Add Lambda Code
 
 1. Scroll to **Code Source**
 2. Replace existing code with:
@@ -183,7 +175,7 @@ def lambda_handler(event, context):
 
 ---
 
-## ✅ STEP 8: Add S3 Trigger to Lambda
+## STEP 8: Add S3 Trigger to Lambda
 
 1. In Lambda → Click **Add trigger**
 2. Choose:
@@ -196,7 +188,7 @@ def lambda_handler(event, context):
 
 ---
 
-## ✅ STEP 9: Upload an Image to S3
+## STEP 9: Upload an Image to S3
 
 You can upload using the AWS Console:
 
@@ -211,10 +203,10 @@ aws s3 cp myphoto.jpg s3://image-upload-metadata-demo/images/myphoto.jpg
 
 ---
 
-## ✅ STEP 10: Verify Results
+## STEP 10: Verify Results
 
-1. 🔍 **DynamoDB** → Open `ImageMetadata` → Confirm new row
-2. 📬 **Email Inbox** → Check for image upload notification
-3. 📜 **CloudWatch Logs** (in Lambda) → Debug if needed
+1.  **DynamoDB** → Open `ImageMetadata` → Confirm new row
+2.  **Email Inbox** → Check for image upload notification
+3.  **CloudWatch Logs** (in Lambda) → Debug if needed
 
 ---
