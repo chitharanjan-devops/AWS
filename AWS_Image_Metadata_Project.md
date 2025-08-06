@@ -1,6 +1,6 @@
-## Project Name:
+## Project Name
 
-**"Image Metadata Extractor with Email Notification"**
+**Image Metadata Extractor with Email Notification**
 
 ---
 
