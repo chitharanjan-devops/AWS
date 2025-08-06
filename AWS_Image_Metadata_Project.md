@@ -1,5 +1,3 @@
----
-
 ````markdown
 # 📸 AWS Project: Image Metadata Extractor with Email Notification
 
@@ -142,7 +140,3 @@ aws s3 cp photo.jpg s3://image-upload-metadata-demo/images/photo.jpg
 - Go to **DynamoDB** → Check for new item
 - Check your **email inbox** for notification
 - Check **CloudWatch logs** if issues
-
----
-
-
