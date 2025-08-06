@@ -118,7 +118,7 @@ dynamodb = boto3.resource('dynamodb')
 sns = boto3.client('sns')
 
 table = dynamodb.Table('ImageMetadata')
-SNS_TOPIC_ARN = 'arn:aws:sns:YOUR_REGION:YOUR_ACCOUNT_ID:ImageUploadNotification'  # <== Replace this
+SNS_TOPIC_ARN = 'arn:aws:sns:YOUR_REGION:YOUR_ACCOUNT_ID:ImageUploadNotification' 
 
 def lambda_handler(event, context):
     for record in event['Records']:
